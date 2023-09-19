@@ -1,15 +1,17 @@
 import { Schema } from "mongoose";
 import { z } from 'zod';
 import httpStatus from 'http-status';
-
+import bcrypt from 'bcrypt';
 import { IUser, IUserMethods, IUserStatics } from "./user.interface";
 import { ApiError } from "../../shared/ApiError";
+import { Admin } from "../admin/admin.model";
 
 export const UserMongooseSchema = new Schema<IUser, IUserStatics, IUserMethods>(
     {
         password: {
             type: String,
-            required: true
+            required: true,
+            select: false,
         },
         role: {
             type: String,
@@ -31,7 +33,8 @@ export const UserMongooseSchema = new Schema<IUser, IUserStatics, IUserMethods>(
         },
         phoneNumber: {
             type: String,
-            required: true
+            required: true,
+            unique: true
         },
         address: {
             type: String,
@@ -64,6 +67,35 @@ UserMongooseSchema.pre('save', async function (next) {
     }
     next();
 });
+
+
+UserMongooseSchema.pre('save', async function (next) {
+    const exist = await Admin.findOne({ phoneNumber: this.phoneNumber });
+    if (exist) {
+        throw new ApiError(httpStatus.BAD_REQUEST, "User already exist with the given number");
+    }
+    next();
+});
+
+
+UserMongooseSchema.statics.isUserExist = async function (phone: string) {
+    const exist = await this.findOne({ phoneNumber: phone }, { password: 1, phoneNumber: 1, _id: 1, role: 1 }).lean();
+    return exist;
+};
+
+UserMongooseSchema.statics.isPasswordMatched = async function (actualPass, givenPass) {
+    const match = await bcrypt.compare(givenPass, actualPass as string);
+    console.log(match);
+    return match;
+};
+
+
+UserMongooseSchema.pre('save', async function (next) {
+    this.password = await bcrypt.hash(this.password as string, 12);
+    next();
+});
+
+
 
 
 UserMongooseSchema.pre('findOneAndUpdate', async function (next) {

@@ -8,7 +8,7 @@ import httpStatus from "http-status";
 export const userSignUpController = catchAsync(async (req: Request, res: Response) => {
     const userData: IUser = req.body;
     const result = await userSignUp(userData);
-    sendResponse<IUser>(res, {
+    sendResponse<Partial<IUser>>(res, {
         statusCode: httpStatus.OK,
         success: true,
         data: result,

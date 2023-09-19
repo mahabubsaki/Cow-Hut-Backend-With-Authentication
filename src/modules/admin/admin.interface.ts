@@ -15,6 +15,8 @@ export interface IAdmin extends Document {
 
 export interface MyJwtPayload extends JwtPayload {
     phoneNumber: string,
+    id: string,
+    role: string;
 }
 
 export interface IAdminMethods {

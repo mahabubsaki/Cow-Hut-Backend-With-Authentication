@@ -20,5 +20,6 @@ export interface IUserMethods {
 }
 
 export interface IUserStatics extends Model<IUser, object, IUserMethods> {
-    demo: () => string;
+    isUserExist(phone: string): Promise<Partial<IUser> | null>,
+    isPasswordMatched(actualPass: string, givenPass: string): Promise<boolean>;
 }

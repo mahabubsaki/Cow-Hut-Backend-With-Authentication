@@ -16,8 +16,9 @@ export const orderSignUpController = catchAsync(async (req: Request, res: Respon
     });
 });
 
-export const getAllOrdersController = catchAsync(async (_: Request, res: Response) => {
-    const result = await getAllOrders();
+export const getAllOrdersController = catchAsync(async (req: Request, res: Response) => {
+    const query = req.user.role === 'seller' ? { seller: req.user.id } : { buyer: req.user.id };
+    const result = await getAllOrders(query);
     sendResponse<IOrder[]>(res, {
         message: "Orders retrieved successfully",
         statusCode: httpStatus.OK,

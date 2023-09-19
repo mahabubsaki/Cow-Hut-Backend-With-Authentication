@@ -48,3 +48,17 @@ export const validateSellerId: RequestHandler = async (req, _, next): Promise<vo
     }
 
 };
+
+export const validateCowOwner: RequestHandler = async (req, _, next): Promise<void> => {
+    try {
+        if (req.user.id !== req.params.id) {
+            throw new ApiError(httpStatus.UNAUTHORIZED, "You are not the owner of cow");
+        }
+        next();
+    }
+    catch (err) {
+        console.log(err, 'lol');
+        next(err);
+    }
+
+};

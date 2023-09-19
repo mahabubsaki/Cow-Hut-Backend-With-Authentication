@@ -6,6 +6,10 @@ export interface IOrder extends Document {
     cow: ICow | Types.ObjectId,
     buyer: IUser | Types.ObjectId;
 }
+export interface OrderQuery {
+    seller?: string;
+    buyer?: string;
+}
 
 export interface IOrderMethods {
     demo: () => string;

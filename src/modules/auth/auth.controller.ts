@@ -15,7 +15,7 @@ export const authLoginController = catchAsync(async (req: Request, res: Response
         statusCode: httpStatus.OK,
         success: true,
         data: { accessToken },
-        message: "Admin logged in successfully"
+        message: "Logged in successfully"
     });
 });
 
@@ -28,6 +28,6 @@ export const authTokenRequestController = catchAsync(async (req: Request, res: R
         statusCode: httpStatus.OK,
         success: true,
         data: result,
-        message: "Admin logged in successfully"
+        message: "New access token generated successfully !"
     });
 });

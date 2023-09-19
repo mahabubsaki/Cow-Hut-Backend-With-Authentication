@@ -4,7 +4,7 @@ import { ICow } from "../cows/cow.interface";
 import { Cow } from "../cows/cow.model";
 import { IUser } from "../users/user.interface";
 import { User } from "../users/user.model";
-import { IOrder } from "./order.interface";
+import { IOrder, OrderQuery } from "./order.interface";
 import { Order } from "./order.model";
 import mongoose from "mongoose";
 
@@ -40,7 +40,7 @@ export const orderSignUp = async (payload: IOrder): Promise<IOrder> => {
 
 
 };
-export const getAllOrders = async (): Promise<IOrder[]> => {
-    const result = await Order.find({});
+export const getAllOrders = async (query: OrderQuery): Promise<IOrder[]> => {
+    const result = await Order.find(query);
     return result;
 };

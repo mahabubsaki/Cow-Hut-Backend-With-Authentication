@@ -1,8 +1,8 @@
 import { IUser } from "./user.interface";
 import { User } from "./user.model";
 
-export const userSignUp = async (payload: IUser): Promise<IUser> => {
-    const result = await User.create(payload);
+export const userSignUp = async (payload: IUser): Promise<Partial<IUser>> => {
+    const { password, ...result } = (await User.create(payload)).toObject();
     return result;
 };
 export const getAllUsers = async (): Promise<IUser[]> => {
