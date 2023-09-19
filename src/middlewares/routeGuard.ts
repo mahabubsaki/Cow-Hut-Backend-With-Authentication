@@ -5,7 +5,7 @@ import { verifyToken } from "../helpers/jwt.helpers";
 import config from "../config";
 import { Secret } from "jsonwebtoken";
 
-const routeGuard = (...roles: string[]) => async (req: Request, res: Response, next: NextFunction) => {
+const routeGuard = (...roles: string[]) => async (req: Request, _: Response, next: NextFunction) => {
 
     try {
         const token = req.headers.authorization;

@@ -3,7 +3,7 @@ import { CowZodSchmea } from "./cow.schema";
 import { User } from "../users/user.model";
 import { ApiError } from "../../shared/ApiError";
 import httpStatus from "http-status";
-import { Cow } from "./cow.model";
+
 
 export const validateSignedUpCow: RequestHandler = async (req, _, next): Promise<void> => {
     try {

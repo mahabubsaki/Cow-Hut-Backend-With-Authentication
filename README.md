@@ -1,32 +1,51 @@
-# Live Link: [https://l2-a3.vercel.app/](https://l2-a3.vercel.app/)
+# Live Link: [https://assingment-4-rho.vercel.app/](https://assingment-4-rho.vercel.app/)
 
-## Application Routes:
+### Application Routes:
 
-#### User
+## Main part
 
-- [https://l2-a3.vercel.app/api/v1/auth/signup](https://l2-a3.vercel.app/api/v1/auth/signup) (POST)
-- [https://l2-a3.vercel.app/api/v1/users](https://l2-a3.vercel.app/api/v1/users) (GET)
-- [https://l2-a3.vercel.app/api/v1/users/64fd10cff5581e10aaa2135f](https://l2-a3.vercel.app/api/v1/users/64fd10cff5581e10aaa2135f) (Single GET)
-- [https://l2-a3.vercel.app/api/v1/users/64fd10cff5581e10aaa2135f](https://l2-a3.vercel.app/api/v1/users/64fd10cff5581e10aaa2135f) (PATCH)
-- [https://l2-a3.vercel.app/api/v1/users/64fd10cff5581e10aaa2135f](https://l2-a3.vercel.app/api/v1/users/64fd10cff5581e10aaa2135f) (DELETE)
+### Auth (User)
+
+- Route: https://assingment-4-rho.vercel.app/api/v1/auth/login (POST)
+- Route: https://assingment-4-rho.vercel.app/api/v1/auth/signup (POST)
+- Route: https://assingment-4-rho.vercel.app/api/v1/auth/refresh-token (POST)
+
+### Auth (Admin)
+
+- Route: https://assingment-4-rho.vercel.app/api/v1/admins/create-admin (POST)
+- Route: https://assingment-4-rho.vercel.app/api/v1/admins/login (POST)
+
+### User
+
+- Route: https://assingment-4-rho.vercel.app/api/v1/users (GET) Include an id that is saved in your database
+- Route: https://assingment-4-rho.vercel.app/api/v1/users/6509d106e2ec335909e6ea82 (Single GET) Include an id that is saved in your database
+- Route: https://assingment-4-rho.vercel.app/api/v1/users/6509d106e2ec335909e6ea82 (PATCH) Include an id that is saved in your database
+- Route: https://assingment-4-rho.vercel.app/api/v1/users/6509d106e2ec335909e6ea82 (DELETE) Include an id that is saved in your database
 
 #### Cows
 
-- [https://l2-a3.vercel.app/api/v1/cows](https://l2-a3.vercel.app/api/v1/cows) (POST)
-- [https://l2-a3.vercel.app/api/v1/cows](https://l2-a3.vercel.app/api/v1/cows) (GET)
-- [https://l2-a3.vercel.app/api/v1/cows/64fd5dbaff646d15a9c66847](https://l2-a3.vercel.app/api/v1/cows/64fd5dbaff646d15a9c66847) (Single GET)
-- [https://l2-a3.vercel.app/api/v1/cows/64fd5dbaff646d15a9c66847](https://l2-a3.vercel.app/api/v1/cows/64fd5dbaff646d15a9c66847) (PATCH)
-- [https://l2-a3.vercel.app/api/v1/cows/64fd5dbaff646d15a9c66847](https://l2-a3.vercel.app/api/v1/cows/64fd5dbaff646d15a9c66847) (DELETE)
-
-### Pagination and Filtering routes of Cows
-
-- [https://l2-a3.vercel.app/api/v1/cows?pag=1&limit=10](https://l2-a3.vercel.app/api/v1/cows?pag=1&limit=10)
-- [https://l2-a3.vercel.app/api/v1/cows?sortBy=price&sortOrder=asc](https://l2-a3.vercel.app/api/v1/cows?sortBy=price&sortOrder=asc)
-- [https://l2-a3.vercel.app/api/v1/cows?minPrice=20000&maxPrice=70000](https://l2-a3.vercel.app/api/v1/cows?sortBy=price&sortOrder=asc)
-- [https://l2-a3.vercel.app/api/v1/cows?location=Chattogram](https://l2-a3.vercel.app/api/v1/cows?sortBy=price&sortOrder=asc)
-- [https://l2-a3.vercel.app/api/v1/cows?query=Brahman](https://l2-a3.vercel.app/api/v1/cows?sortBy=price&sortOrder=asc)
+- Route: https://assingment-4-rho.vercel.app/api/v1/cows (POST)
+- Route: https://assingment-4-rho.vercel.app/api/v1/cows (GET)
+- Route: https://assingment-4-rho.vercel.app/api/v1/cows/6509d54fa9ab173700de150d (Single GET) Include an id that is saved in your database
+- Route: https://assingment-4-rho.vercel.app/api/v1/cows/6509d54fa9ab173700de150d (PATCH) Include an id that is saved in your database
+- Route: https://assingment-4-rho.vercel.app/api/v1/cows/6509d54fa9ab173700de150d (DELETE) Include an id that is saved in your database
 
 #### Orders
 
-- [https://l2-a3.vercel.app/api/v1/orders](https://l2-a3.vercel.app/api/v1/orders) (POST)
-- [https://l2-a3.vercel.app/api/v1/orders](https://l2-a3.vercel.app/api/v1/orders) (GET)
+- Route: https://assingment-4-rho.vercel.app/api/v1/orders (POST)
+- Route: https://assingment-4-rho.vercel.app/api/v1/orders (GET)
+
+## Bonus Part
+
+#### Admin
+
+-Route: https://assingment-4-rho.vercel.app/api/v1/admins/create-admin (POST)
+
+#### My Profile
+
+- Route: https://assingment-4-rho.vercel.app/api/v1/users/my-profile (GET)
+- Route: https://assingment-4-rho.vercel.app/api/v1/users/my-profile (PATCH)
+
+#### Order:
+
+- Route: https://assingment-4-rho.vercel.app/api/v1/orders/6509f836932de5afe2536692 (GET)

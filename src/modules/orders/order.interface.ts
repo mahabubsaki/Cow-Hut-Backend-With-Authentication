@@ -1,4 +1,4 @@
-import { Document, Model, Types } from "mongoose";
+import { Document, Model } from "mongoose";
 import { IUser } from "../users/user.interface";
 import { ICow } from "../cows/cow.interface";
 
