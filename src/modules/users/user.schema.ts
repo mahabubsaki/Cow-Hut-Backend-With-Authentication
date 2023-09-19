@@ -68,6 +68,15 @@ UserMongooseSchema.pre('save', async function (next) {
     next();
 });
 
+const nonEmptyObject = z.custom((value) => {
+    if (value === null) {
+        throw new Error('Object must not be empty');
+    }
+    if (typeof value === 'object' && Object.keys(value).length === 0) {
+        throw new Error('Object must not be empty');
+    }
+    return value;
+});
 
 UserMongooseSchema.pre('save', async function (next) {
     const exist = await Admin.findOne({ phoneNumber: this.phoneNumber });
@@ -84,6 +93,7 @@ UserMongooseSchema.statics.isUserExist = async function (phone: string) {
 };
 
 UserMongooseSchema.statics.isPasswordMatched = async function (actualPass, givenPass) {
+
     const match = await bcrypt.compare(givenPass, actualPass as string);
     console.log(match);
     return match;
@@ -100,7 +110,10 @@ UserMongooseSchema.pre('save', async function (next) {
 
 UserMongooseSchema.pre('findOneAndUpdate', async function (next) {
     const id = this.getQuery()._id;
-    const reqBody = this.getUpdate();
+    const reqBody = this.getUpdate() as Partial<IUser>;
+    if (reqBody.password) {
+        reqBody.password = await bcrypt.hash(reqBody.password as string, 12);
+    }
     const { _doc: data } = await this.model.findById(id);
     const updatedData = { ...data, ...reqBody };
     if (updatedData.role === 'buyer' && updatedData.income > 0) {
@@ -111,6 +124,7 @@ UserMongooseSchema.pre('findOneAndUpdate', async function (next) {
     }
     next();
 });
+
 
 function createZodObject(method: 'update' | 'create') {
 
@@ -136,7 +150,7 @@ function createZodObject(method: 'update' | 'create') {
             invalid_type_error: "Role must be either buyer or seller",
             required_error: "Role is required"
         }),
-        name: method === 'create' ? nameObj.strict() : nameObj.partial().strict(),
+        name: method === 'create' ? nonEmptyObject.and(nameObj.strict()) : nonEmptyObject.and(nameObj.partial().strict()),
         phoneNumber: z.string({
             invalid_type_error: "Phonenumber must be string",
             required_error: "Phonenumber is required"
@@ -154,7 +168,9 @@ function createZodObject(method: 'update' | 'create') {
             required_error: "Income is required"
         })
     });
+
     return zodObj;
+
 }
 
 
@@ -166,6 +182,6 @@ export const UserZodSchema = createZodObject('create').refine(schema => {
     path: ["role", "budget", "income"]
 });
 
-export const UpdatedZodSchema = createZodObject('update').partial().strict()
+export const UpdatedZodSchema = createZodObject('update').omit({ role: true }).partial().strict()
 
 

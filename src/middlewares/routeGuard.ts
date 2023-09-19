@@ -6,6 +6,7 @@ import config from "../config";
 import { Secret } from "jsonwebtoken";
 
 const routeGuard = (...roles: string[]) => async (req: Request, res: Response, next: NextFunction) => {
+
     try {
         const token = req.headers.authorization;
         if (!token) {

@@ -30,10 +30,6 @@ export const validateUpdatedCow: RequestHandler = async (req, _, next): Promise<
 export const validateSellerId: RequestHandler = async (req, _, next): Promise<void> => {
     try {
         const seller = await User.findById(req.body.seller);
-        const cow = await Cow.findById(req.body.cow);
-        if (!cow) {
-            throw new ApiError(httpStatus.BAD_REQUEST, "No Cow found with the given id");
-        }
         if (!seller) {
             throw new ApiError(httpStatus.BAD_REQUEST, "No User found with the given id");
         }

@@ -3,8 +3,8 @@ import { IUser } from "../users/user.interface";
 import { ICow } from "../cows/cow.interface";
 
 export interface IOrder extends Document {
-    cow: ICow | Types.ObjectId,
-    buyer: IUser | Types.ObjectId;
+    cow: ICow,
+    buyer: IUser;
 }
 export interface OrderQuery {
     seller?: string;

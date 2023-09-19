@@ -7,6 +7,7 @@ import { User } from "../users/user.model";
 import { IOrder, OrderQuery } from "./order.interface";
 import { Order } from "./order.model";
 import mongoose from "mongoose";
+import { MyJwtPayload } from "../admin/admin.interface";
 
 export const orderSignUp = async (payload: IOrder): Promise<IOrder> => {
     const buyer = await User.findById(payload.buyer) as IUser;
@@ -42,5 +43,14 @@ export const orderSignUp = async (payload: IOrder): Promise<IOrder> => {
 };
 export const getAllOrders = async (query: OrderQuery): Promise<IOrder[]> => {
     const result = await Order.find(query);
+    return result;
+};
+export const getSingleOrder = async (id: string, user: MyJwtPayload): Promise<IOrder | null> => {
+    const result = await Order.findById(id).populate('buyer').populate('cow') as IOrder;
+    const { cow, buyer }: { cow: ICow, buyer: IUser; } = result;
+    console.log(user, cow, buyer);
+    if ((user.role === 'seller' && (cow.seller.id != user.id)) || (user.role === 'buyer' && (buyer.id != user.id))) {
+        throw new ApiError(httpStatus.UNAUTHORIZED, "You can not  view others order status");
+    }
     return result;
 };

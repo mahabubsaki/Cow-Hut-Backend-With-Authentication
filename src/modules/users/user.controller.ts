@@ -63,3 +63,28 @@ export const deleteUserController = catchAsync(async (req: Request, res: Respons
         errorMessages: !result ? [{ message: `No user found with id ${id}`, path: "" }] : null
     });
 });
+
+export const myProfileController = catchAsync(async (req: Request, res: Response) => {
+    const id = req.user.id;
+    const result = await getSingleUser(id);
+    sendResponse<IUser | null>(res, {
+        message: result ? `User's information retrieved successfully` : `No user found`,
+        statusCode: result ? httpStatus.OK : httpStatus.BAD_REQUEST,
+        success: result ? true : false,
+        data: result ? result : null,
+        errorMessages: !result ? [{ message: `No user found with id ${id}`, path: "" }] : null
+    });
+});
+
+export const updateProfileController = catchAsync(async (req: Request, res: Response) => {
+    const id = req.user.id;
+    const body = req.body;
+    const result = await updateUser(id, body);
+    sendResponse<IUser | null>(res, {
+        message: result ? `User Info update successfully` : `No user found to update`,
+        statusCode: result ? httpStatus.OK : httpStatus.BAD_REQUEST,
+        success: result ? true : false,
+        data: result ? result : null,
+        errorMessages: !result ? [{ message: `No user found with id ${id}`, path: "" }] : null
+    });
+});

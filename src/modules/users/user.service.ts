@@ -1,3 +1,5 @@
+import httpStatus from "http-status";
+import { ApiError } from "../../shared/ApiError";
 import { IUser } from "./user.interface";
 import { User } from "./user.model";
 
@@ -21,6 +23,16 @@ export const deleteUser = async (id: string) => {
 };
 
 export const updateUser = async (id: string, body: Partial<IUser>): Promise<IUser | null> => {
-    const result = await User.findByIdAndUpdate(id, body, { new: true });
+    const existingUser = await User.findById(id);
+    if (!existingUser) {
+        throw new ApiError(httpStatus.NOT_FOUND, "No User found to update");
+    }
+    const { name, ...rest } = body;
+    const updatedName = { ...existingUser.name, ...name };
+    const updatedUser = {
+        name: updatedName,
+        ...rest
+    };
+    const result = await User.findByIdAndUpdate(id, updatedUser, { new: true });
     return result;
 };
