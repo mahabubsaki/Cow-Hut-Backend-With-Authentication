@@ -1,0 +1,4 @@
+export enum JWT_EXPIRATION {
+    ACCESS_EXIPIRES_IN = '1d',
+    REFRESH_EXIPIRES_IN = '365d',
+}
