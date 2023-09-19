@@ -1,0 +1,1 @@
+export const searchFields = ['name', 'location', 'breed', 'category'];
