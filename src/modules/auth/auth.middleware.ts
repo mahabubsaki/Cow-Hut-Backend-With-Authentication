@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { AuthLoginSchema, AuthTokenRequestSchema } from "./auth.schema";
+import { AuthLoginSchema, AuthTokenRequestSchema, ChangePasswordSchema } from "./auth.schema";
 
 export const validateAuthLogin: RequestHandler = async (req, _, next): Promise<void> => {
     try {
@@ -14,6 +14,15 @@ export const validateAuthLogin: RequestHandler = async (req, _, next): Promise<v
 export const validateRefreshToken: RequestHandler = async (req, _, next): Promise<void> => {
     try {
         await AuthTokenRequestSchema.parseAsync(req.cookies);
+        next();
+    }
+    catch (err) {
+        next(err);
+    }
+};
+export const validateChangePassword: RequestHandler = async (req, _, next): Promise<void> => {
+    try {
+        await ChangePasswordSchema.parseAsync(req.cookies);
         next();
     }
     catch (err) {

@@ -1,13 +1,15 @@
 import httpStatus from "http-status";
 import { ApiError } from "../../shared/ApiError";
-import { IAdmin } from "../admin/admin.interface";
+import { IAdmin, MyJwtPayload } from "../admin/admin.interface";
 import { Admin } from "../admin/admin.model";
 import { createToken, verifyToken } from "../../helpers/jwt.helpers";
-
+import bcrypt from 'bcrypt';
 import { JWT_EXPIRATION } from "../../enums/admin.enums";
 import { Secret } from "jsonwebtoken";
 import config from "../../config";
 import { User } from "../users/user.model";
+import { updateAdmin } from "../admin/admin.service";
+import { updateUser } from "../users/user.service";
 
 export const authLogin = async (payload: Pick<IAdmin, 'phoneNumber' | 'password'>) => {
     const { password, phoneNumber } = payload;
@@ -51,4 +53,34 @@ export const requestAccesToken = async (token: string) => {
     return { accessToken: newAccessToken };
 };
 
+
+export const changePassword = async (passwordObj: { oldPassword: string, newPassword: string; }, user: MyJwtPayload) => {
+    const { newPassword, oldPassword } = passwordObj;
+    const userDocument = await User.findById(user.id) || await Admin.findById(user.id);
+
+    if (!userDocument) {
+        throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+    }
+
+    const isOldPasswordOk = await User.isPasswordMatched(userDocument.password, oldPassword);
+
+    if (!isOldPasswordOk) {
+        throw new ApiError(httpStatus.UNAUTHORIZED, "Incorrect old password");
+    }
+    if (newPassword !== oldPassword) {
+        throw new ApiError(httpStatus.BAD_GATEWAY, "Password did not matched ");
+    }
+
+    const updatedHash = await bcrypt.hash(newPassword as string, 12);
+    if (userDocument instanceof User) {
+        await updateUser(user?.id as string, { password: updatedHash });
+    } else {
+        await updateAdmin(user?.id as string, { password: updatedHash });
+    }
+
+    return {
+        message: 'No data'
+    };
+
+};
 

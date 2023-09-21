@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import catchAsync from "../../shared/catchAsync";
 import { IAdmin } from "../admin/admin.interface";
-import { authLogin, requestAccesToken } from "./auth.service";
+import { authLogin, changePassword, requestAccesToken } from "./auth.service";
 import sendResponse from "../../shared/sendResponse";
 import httpStatus from "http-status";
 import config from "../../config";
@@ -29,5 +29,16 @@ export const authTokenRequestController = catchAsync(async (req: Request, res: R
         success: true,
         data: result,
         message: "New access token generated successfully !"
+    });
+});
+export const changePasswordController = catchAsync(async (req: Request, res: Response) => {
+    const user = req.user;
+    const { ...paswordData } = req.body;
+    const result = await changePassword(paswordData, user);
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        data: result,
+        message: "Password Updated succesfully"
     });
 });
