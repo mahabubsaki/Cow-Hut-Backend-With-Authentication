@@ -1,5 +1,7 @@
 import { RequestHandler } from "express";
 import { AuthLoginSchema, AuthTokenRequestSchema, ChangePasswordSchema } from "./auth.schema";
+import { UserZodSchema } from "../users/user.schema";
+
 
 export const validateAuthLogin: RequestHandler = async (req, _, next): Promise<void> => {
     try {
