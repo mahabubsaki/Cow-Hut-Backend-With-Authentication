@@ -7,7 +7,7 @@ import { USER_ROLE } from '../../enums/role.enums';
 
 const userRouter = express.Router();
 
-userRouter.post('/auth/signup', validateSignedUpUser, userSignUpController);
+// userRouter.post('/auth/signup', validateSignedUpUser, userSignUpController);
 userRouter.get('/', routeGuard(USER_ROLE.ADMIN), getAllUsersController);
 userRouter.get('/my-profile', routeGuard(USER_ROLE.BUYER, USER_ROLE.SELLER), myProfileController);
 userRouter.get('/:id', objectIdValidation, routeGuard(USER_ROLE.ADMIN), getSingleUserController);

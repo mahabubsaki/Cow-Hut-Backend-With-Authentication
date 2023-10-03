@@ -4,6 +4,7 @@ import cowRouter from "../modules/cows/cow.route";
 import orderRouter from "../modules/orders/order.route";
 import adminRouter from "../modules/admin/admin.route";
 import authRouter from "../modules/auth/auth.route";
+import signUpRouter from "../modules/users/signup.route";
 const router = express.Router();
 
 const applicationRoutes = [
@@ -11,7 +12,8 @@ const applicationRoutes = [
     { path: '/cows', controller: cowRouter },
     { path: '/orders', controller: orderRouter },
     { path: '/admins', controller: adminRouter },
-    { path: '/auth', controller: authRouter }
+    { path: '/auth', controller: authRouter },
+    { path: '/', controller: signUpRouter }
 ];
 
 applicationRoutes.forEach(route => {
